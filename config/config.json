@@ -4,6 +4,6 @@
         "python_file": "dbfs:/user/bclipp770@yandex.com/MLOps_preprocessing_python/__main__.py"
     },
     "email_notifications": {},
-    "name": "MLOps_search_python",
+    "name": "MLOps_preprocessing_python",
     "max_concurrent_runs": 1
 }
