@@ -3,6 +3,7 @@ import yfinance as yf
 import time
 import dbutils
 import uuid
+import datetime
 
 
 def main():
@@ -11,7 +12,9 @@ def main():
     pdf = yf.download(tickers='UBER', period='10y', interval='1d')
     pdf["AdjClose"] = pdf["Adj Close"]
     pdf = pdf.drop("Adj Close", axis=1)
-    id = str(uuid.uuid1()).replace('-', '')
+    now = datetime.now()
+    timestamp = now.strftime("%m%d%Y%H%M")
+    uid = str(uuid.uuid1()).replace('-', '')
     timestamp = int(time.time())
     dbutils.fs.mkdirs("/dbfs/datalake")
     df = spark.createDataFrame(pdf)
