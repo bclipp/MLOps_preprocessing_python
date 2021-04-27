@@ -4,10 +4,14 @@ import time
 import dbutils
 import uuid
 import datetime
+from pyspark.sql import SparkSession
 
 
 def main():
-    spark = ...
+    spark = SparkSession \
+        .builder \
+        .appName("PythonPageRank") \
+        .getOrCreate()
     spark.conf.set("spark.sql.execution.arrow.enabled", True)
     pdf = yf.download(tickers='UBER', period='10y', interval='1d')
     pdf["AdjClose"] = pdf["Adj Close"]
@@ -15,10 +19,9 @@ def main():
     now = datetime.now()
     timestamp = now.strftime("%m%d%Y%H%M")
     uid = str(uuid.uuid1()).replace('-', '')
-    timestamp = int(time.time())
     dbutils.fs.mkdirs("/dbfs/datalake")
     df = spark.createDataFrame(pdf)
-    df.write.format("delta").save(f"/dbfs/datalake/stocks_{id}_{timestamp}/data")
+    df.write.format("delta").save(f"/dbfs/datalake/stocks_{uid}_{timestamp}/data")
 
 
 if __name__ == "__main__":
