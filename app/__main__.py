@@ -2,7 +2,7 @@ from delta.tables import *
 import yfinance as yf
 # import dbutils
 import uuid
-import datetime
+from datetime import datetime
 from pyspark.sql import SparkSession
 
 
