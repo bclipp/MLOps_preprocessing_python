@@ -1,7 +1,6 @@
 from delta.tables import *
 import yfinance as yf
-import time
-import dbutils
+# import dbutils
 import uuid
 import datetime
 from pyspark.sql import SparkSession
@@ -19,7 +18,7 @@ def main():
     now = datetime.now()
     timestamp = now.strftime("%m%d%Y%H%M")
     uid = str(uuid.uuid1()).replace('-', '')
-    dbutils.fs.mkdirs("/dbfs/datalake")
+#    dbutils.fs.mkdirs("/dbfs/datalake/dat")
     df = spark.createDataFrame(pdf)
     df.write.format("delta").save(f"/dbfs/datalake/stocks_{uid}_{timestamp}/data")
 
