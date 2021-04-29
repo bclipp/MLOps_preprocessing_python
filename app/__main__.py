@@ -1,9 +1,11 @@
+from datetime import datetime
+
 from delta.tables import *
 import yfinance as yf
-# import dbutils
 import uuid
-from datetime import datetime
+
 from pyspark.sql import SparkSession
+import sys
 
 
 def main():
@@ -11,16 +13,13 @@ def main():
         .builder \
         .appName("PythonPageRank") \
         .getOrCreate()
+    uid = sys.argv[1]
     spark.conf.set("spark.sql.execution.arrow.enabled", True)
     pdf = yf.download(tickers='UBER', period='10y', interval='1d')
     pdf["AdjClose"] = pdf["Adj Close"]
     pdf = pdf.drop("Adj Close", axis=1)
-    now = datetime.now()
-    timestamp = now.strftime("%m%d%Y%H%M")
-    uid = str(uuid.uuid1()).replace('-', '')
-#    dbutils.fs.mkdirs("/dbfs/datalake/dat")
     df = spark.createDataFrame(pdf)
-    df.write.format("delta").save(f"/dbfs/datalake/stocks_{uid}_{timestamp}/data")
+    df.write.format("delta").save(f"/dbfs/datalake/stocks_{uid}/data")
 
 
 if __name__ == "__main__":
