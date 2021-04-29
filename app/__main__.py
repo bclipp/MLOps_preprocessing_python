@@ -19,7 +19,8 @@ def main():
     pdf["AdjClose"] = pdf["Adj Close"]
     pdf = pdf.drop("Adj Close", axis=1)
     df = spark.createDataFrame(pdf)
-    df.write.format("delta").save(f"/dbfs/datalake/stocks_{uid}/data")
+    print(f"dbfs:/datalake/stocks_{uid}/data")
+    df.write.format("delta").save(f"dbfs:/datalake/stocks_{uid}/data")
 
 
 if __name__ == "__main__":
