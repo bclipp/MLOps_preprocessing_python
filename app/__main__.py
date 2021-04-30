@@ -19,8 +19,11 @@ def main():
     pdf["AdjClose"] = pdf["Adj Close"]
     pdf = pdf.drop("Adj Close", axis=1)
     df = spark.createDataFrame(pdf)
-    print(f"dbfs:/datalake/stocks_{uid}/data")
-    df.write.format("delta").save(f"dbfs:/datalake/stocks_{uid}/data")
+    print(f"saving table to dbfs:/datalake/stocks_{uid}/data")
+    try:
+        df.write.format("delta").save(f"dbfs:/datalake/stocks_{uid}/data")
+    except Exception as e:
+        print(f"There was an error writing the delta stock table, : error:{e}")
 
 
 if __name__ == "__main__":
