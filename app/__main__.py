@@ -1,3 +1,7 @@
+"""
+This module is dedicated to preprocessing data for ML training
+"""
+
 from datetime import datetime
 
 from delta.tables import *
@@ -9,6 +13,9 @@ import sys
 
 
 def main():
+    """
+    This is the entry point for the preprocessing
+    """
     spark = SparkSession \
         .builder \
         .appName("PythonPageRank") \
