@@ -2,14 +2,13 @@
 This module is dedicated to preprocessing data for ML training
 """
 
+import sys
 from datetime import datetime
 
 from delta.tables import *
 import yfinance as yf
-import uuid
 
 from pyspark.sql import SparkSession
-import sys
 
 
 def main():
@@ -25,12 +24,12 @@ def main():
     pdf = yf.download(tickers='UBER', period='10y', interval='1d')
     pdf["AdjClose"] = pdf["Adj Close"]
     pdf = pdf.drop("Adj Close", axis=1)
-    df = spark.createDataFrame(pdf)
+    data_frame = spark.createDataFrame(pdf)
     print(f"saving table to dbfs:/datalake/stocks_{uid}/data")
     try:
-        df.write.format("delta").save(f"dbfs:/datalake/stocks_{uid}/data")
-    except Exception as e:
-        print(f"There was an error writing the delta stock table, : error:{e}")
+        data_frame.write.format("delta").save(f"dbfs:/datalake/stocks_{uid}/data")
+    except Exception as error:
+        print(f"There was an error writing the delta stock table, : error:{error}")
 
 
 if __name__ == "__main__":
