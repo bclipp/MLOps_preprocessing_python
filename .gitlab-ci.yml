@@ -22,7 +22,7 @@ on-pull-requests:
     - pipenv run pip freeze > requirements.txt
     - pipenv run pip freeze
     - pip install -r requirements.txt
-    - pylint --fail-under=6 -d E0401 -d C0103 app
+    - pylint --fail-under=6 -d E0401 -d W0703 -d C0103 app
 
 except-pull-requests:
   script: echo 'this should not run on pull requests'
