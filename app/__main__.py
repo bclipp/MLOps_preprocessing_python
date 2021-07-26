@@ -3,7 +3,7 @@ This module is dedicated to preprocessing data for ML training
 """
 
 import sys
-from datetime import datetime
+# from datetime import datetime
 
 from delta.tables import *
 import yfinance as yf
